@@ -12,7 +12,7 @@ export default function ChattingPage() {
       </Head>
       <main className="flex h-screen w-full flex-col justify-center">
         <div></div>
-        <div className="flex flex-grow">
+        <div className="flex flex-grow w-full justify-center">
           <Sidebar />
           <MessageView />
         </div>

@@ -1,7 +1,19 @@
+import { useSelectedRoomIdState } from "~/utilities/sidebar/hooks/useSelectedRoomIdState";
+
 export default function MessageView() {
+  const [selectedRoomId, setSelectedRoomId] = useSelectedRoomIdState();
+
   return (
-    <div className="h-full flex flex-col justify-center items-center border-r w-[70rem]">
-        <p className="text-6xl text-black font-extrabold tracking-widest">TODO</p>
+    <div className="flex h-full w-[50em] flex-col items-center justify-center border-r space-y-8">
+      <p className="animate-pulse font-bold italic tracking-wide">XYZ</p>
+      <p className="text-6xl font-extrabold tracking-widest text-black ">
+        TODO
+      </p>
+
+      <div className="text-xl text-black">
+        <p>Sidebar state response</p>
+        <p>roomid: {selectedRoomId}</p>
+      </div>
     </div>
   );
 }
