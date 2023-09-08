@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { useSelectedRoomIdState } from "./useSelectedRoomIdState";
+import { useSelectedRoomState } from "./useSelectedRoomState";
 
 export const useSelectedRoomCallback = () => {
-  const [selectedRoomId, setSelectedRoomId] = useSelectedRoomIdState();
+  const [selectedRoom, setSelectedRoom] = useSelectedRoomState();
 
   useEffect(() => {
-    if (selectedRoomId) {
-      console.log(`Query messages cache for room id: ${selectedRoomId}`);
+    if (selectedRoom) {
+      console.log(`Query messages cache for room id: ${selectedRoom.id}`);
     }
-  }, [selectedRoomId]);
+  }, [selectedRoom]);
 };

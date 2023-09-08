@@ -36,7 +36,7 @@ export default function UserForm() {
     console.log(data);
   };
 
-  console.log(watch("pronouns")); 
+  console.log(watch("pronouns"));
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
