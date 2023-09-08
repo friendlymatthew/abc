@@ -1,23 +1,21 @@
-import React, { FC } from "react";
-import { Room } from "~/utilities/chat/types/chat.types";
-import { useSelectedRoomIdState } from "../hooks/useSelectedRoomIdState";
+import React, { type FC } from "react";
+import { type Room } from "~/utilities/chat/types/chat.types";
 import { DateTime } from "luxon";
 
 interface SidebarRoomProps {
   room: Room;
+  index: number;
+  handleClick: () => void;
 }
 
-const SidebarRoom: FC<SidebarRoomProps> = ({ room }) => {
-  const [selectedRoomId, setSelectedRoomId] = useSelectedRoomIdState();
-
+const SidebarRoomButton: FC<SidebarRoomProps> = ({
+  room,
+  index,
+  handleClick,
+}) => {
   const updatedAt = DateTime.fromISO(room.updatedAt).toLocaleString(
     DateTime.DATETIME_SHORT,
   );
-
-  const handleClick = () => {
-    setSelectedRoomId(room.id);
-    console.log(`Query messages cache for room id: ${room.id}`);
-  };
 
   return (
     <li
@@ -26,7 +24,7 @@ const SidebarRoom: FC<SidebarRoomProps> = ({ room }) => {
     >
       <div className="flex items-center space-x-4">
         {/* Access the id from the room object */}
-        <p>{room.id}</p>
+        <p>{index}</p>
         {room.creatorId === "id-0" ? (
           <p>{room.crushDisplayName}</p>
         ) : (
@@ -38,4 +36,4 @@ const SidebarRoom: FC<SidebarRoomProps> = ({ room }) => {
   );
 };
 
-export default SidebarRoom;
+export default SidebarRoomButton;

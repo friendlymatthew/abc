@@ -4,7 +4,7 @@ export default function MessageView() {
   const [selectedRoomId, setSelectedRoomId] = useSelectedRoomIdState();
 
   return (
-    <div className="flex h-full w-[50em] flex-col items-center justify-center border-r space-y-8">
+    <div className="flex h-full w-[50em] flex-col items-center justify-center space-y-8 border-r">
       <p className="animate-pulse font-bold italic tracking-wide">XYZ</p>
       <p className="text-6xl font-extrabold tracking-widest text-black ">
         TODO

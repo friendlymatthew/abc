@@ -19,8 +19,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    },
-    "types": ["node", "luxon"]
+    }
   },
   "include": [
     ".eslintrc.cjs",
