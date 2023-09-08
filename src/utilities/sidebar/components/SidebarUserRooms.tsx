@@ -12,7 +12,7 @@ export default function SidebarUserRooms() {
   };
 
   return (
-    <ul className="w-[20em] flex-grow divide-y-2">
+    <ul className="h-[1em] w-[20em] flex-grow overflow-y-scroll">
       {mockRoomsData
         .filter((room: Room) => room.roomType === RoomType.LIVE)
         .map((room: Room, index) => {

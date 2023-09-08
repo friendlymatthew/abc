@@ -20,7 +20,7 @@ const SidebarRoomButton: FC<SidebarRoomProps> = ({
   return (
     <li
       onClick={handleClick}
-      className="cursor-pointer p-4 transition duration-100 ease-in hover:bg-orange-300"
+      className="cursor-pointer py-3 px-4 transition duration-75 ease-in hover:bg-[#fafafa]"
     >
       <div className="flex items-center space-x-4">
         {/* Access the id from the room object */}
