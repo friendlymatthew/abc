@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.6.0",
+    "@types/luxon": "^3.3.2",
+    "luxon": "^3.4.3",
     "next": "^13.4.13",
     "next-auth": "^4.22.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "recoil": "^0.7.7",
     "zod": "^3.21.4"
   },
   "devDependencies": {
