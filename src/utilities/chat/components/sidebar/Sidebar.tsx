@@ -1,7 +1,7 @@
 import React from "react";
-import SidebarUserProfile from "~/utilities/sidebar/components/SidebarUserProfile";
-import SidebarUserRooms from "~/utilities/sidebar/components/SidebarUserRooms";
 import SidebarUserHeader from "./SidebarUserHeader";
+import SidebarUserProfile from "./SidebarUserProfile";
+import SidebarUserRooms from "./SidebarUserRooms";
 
 export default function Sidebar() {
   return (

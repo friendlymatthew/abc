@@ -1,8 +1,10 @@
 import Head from "next/head";
-import MessageView from "~/utilities/chat/components/MessageView";
-import Sidebar from "~/utilities/chat/components/Sidebar";
-
+import AnnouncementBar from "~/utilities/announcement-bar/components/announcement-bar";
+import Sidebar from "~/utilities/chat/components/sidebar/Sidebar";
+import MessageView from "~/utilities/chat/components/message-view/MessageView";
+import useRoomStateEffect from "~/utilities/chat/hooks/useRoomStateEffect";
 export default function ChattingPage() {
+  useRoomStateEffect();
   return (
     <>
       <Head>
@@ -10,20 +12,12 @@ export default function ChattingPage() {
         <meta name="description" content="OPEN SOURCE" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-screen w-full flex-col justify-center">
-        <div className="bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 py-1">
-          <a
-            href="https://github.com/xyz-hq/abc"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <p className="text-center font-semibold italic text-white hover:underline">
-              github.com/xyz-hq/abc
-            </p>
-          </a>
-        </div>
-        <div className="flex w-full flex-grow justify-center">
-          <Sidebar />
+      <main className="flex h-screen w-full flex-col items-center justify-center">
+        <AnnouncementBar />
+        <div className="flex w-full flex-grow justify-center md:w-11/12">
+          <div className="hidden w-[20em] sm:block">
+            <Sidebar />
+          </div>
           <MessageView />
         </div>
       </main>

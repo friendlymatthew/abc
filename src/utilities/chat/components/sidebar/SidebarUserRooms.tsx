@@ -1,14 +1,15 @@
-import SidebarRoomButton from "~/utilities/sidebar/components/SidebarRoomButton";
-import { useSetRecoilState } from "recoil";
-import { selectedRoomIdState } from "~/utilities/sidebar/states/selectedRoomIdState";
 import { mockRoomsData } from "~/utilities/chat/mockdata/mockdata";
 import { type Room, RoomType } from "~/utilities/chat/types/chat.types";
+import SidebarRoomButton from "./SidebarRoomButton";
+import { useSetRecoilState } from "recoil";
+import { selectedRoomState } from "../../states/selectedRoomState";
 
 export default function SidebarUserRooms() {
-  const setSelectedRoomIdState = useSetRecoilState(selectedRoomIdState);
+  const setSelectedRoomState = useSetRecoilState(selectedRoomState);
 
-  const handleRoomClick = (roomId: string) => {
-    setSelectedRoomIdState(roomId);
+  const handleRoomClick = (room: Room): void => {
+    setSelectedRoomState(room);
+    console.log("room clicked", room);
   };
 
   return (
@@ -21,7 +22,7 @@ export default function SidebarUserRooms() {
               key={index}
               index={index}
               room={room}
-              handleClick={() => handleRoomClick(room.id)}
+              handleClick={() => handleRoomClick(room)}
             />
           );
         })}
