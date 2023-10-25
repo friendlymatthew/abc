@@ -2,6 +2,10 @@ mod http;
 
 use crate::http::HttpResponse;
 use std::collections::HashMap;
+use std::env;
+use std::fs::File;
+use std::io::{Error, Read};
+use std::path::PathBuf;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 //
@@ -9,6 +13,11 @@ use tokio::net::{TcpListener, TcpStream};
 #[tokio::main]
 async fn main() {
     println!("Logs from your program will appear here!");
+
+    let args: Vec<String> = env::args().collect();
+    let directory = args.iter().position(|phr| phr == "--directory")
+        .and_then(|idx| args.get(idx + 1).cloned())
+        .unwrap_or_default();
 
     let listener = TcpListener::bind("127.0.0.1:4221").await.unwrap();
 
@@ -18,11 +27,13 @@ async fn main() {
             .await
             .expect("Failed to accept connection");
 
-        tokio::spawn(handle_connection(socket));
+        let directory = directory.clone();
+
+        tokio::spawn(handle_connection(socket, directory));
     }
 }
 
-async fn handle_connection(mut socket: TcpStream) {
+async fn handle_connection(mut socket: TcpStream, directory: String) {
     let mut buffer = [0u8; 4096];
 
     if let Err(e) = socket.read(&mut buffer).await {
@@ -37,6 +48,13 @@ async fn handle_connection(mut socket: TcpStream) {
 
     let response = if path == "/" {
         HttpResponse::new(200, "OK".to_string())
+    } else if let Some(filename) = path.strip_prefix("/files/") {
+        match ingest_file(&directory, filename) {
+            Ok(contents) => HttpResponse::new(200, contents.clone())
+                .add_header("Content-Type", "application/octet-stream")
+                .add_header("Content-Length", &contents.len().to_string()),
+            Err(_) => HttpResponse::new(404, "Not Found".to_string())
+        }
     } else if let Some(echo) = path.strip_prefix("/echo/") {
         HttpResponse::new(200, echo.to_string())
             .add_header("Content-Type", "text/plain")
@@ -56,6 +74,17 @@ async fn handle_connection(mut socket: TcpStream) {
     if let Err(e) = socket.write_all(&response.to_bytes()).await {
         println!("Failed to write response: {:?}", e);
     }
+}
+
+fn ingest_file(directory: &str, filename: &str) -> Result<String, Error> {
+    let mut path = PathBuf::from(directory);
+    path.push(filename);
+
+    let mut file = File::open(path)?;
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
+
+    Ok(contents)
 }
 
 fn ingest_path(request: &str) -> &str {
