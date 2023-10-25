@@ -1,5 +1,8 @@
+mod http;
+
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
+use crate::http::HttpResponse;
 
 #[tokio::main]
 async fn main()  {
@@ -24,12 +27,25 @@ async fn handle_connection(mut socket: TcpStream) {
 
     let request = String::from_utf8_lossy(&buffer);
 
-    let response = match ingest_path(&request) {
-        "/" => "HTTP/1.1 200 OK\r\n\r\n",
-        _ => "HTTP/1.1 404 Not Found\r\n\r\n"
+    let path = ingest_path(&request);
+
+    let response = if path == "/" {
+        HttpResponse::new(200, "OK".to_string())
+    } else if let Some(echo) = path.strip_prefix("/echo/") {
+        HttpResponse::new(
+            200,
+            echo.to_string()
+        )
+            .add_header("Content-Type", "text/plain")
+            .add_header("Content-Length", &echo.len().to_string())
+    } else {
+        HttpResponse::new(
+            404,
+            "Not Found".to_string()
+        )
     };
 
-    if let Err(e) = socket.write_all(response.as_bytes()).await {
+    if let Err(e) = socket.write_all(&response.to_bytes()).await {
         println!("Failed to write response: {:?}", e);
     }
 }
